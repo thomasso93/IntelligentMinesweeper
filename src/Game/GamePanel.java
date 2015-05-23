@@ -18,12 +18,14 @@ import PathFindingFramework.PathFinder;
 import PathFinding.GameMap;
 import PathFinding.UnitMover;
 import java.awt.Point;
+import GameMapGenerator.MapGenerator;
 
 public class GamePanel extends JPanel {
 
     private Minesweeper minesweeper;
     private Point posOnMap;
-    private GameMap map = new GameMap();
+    private GameMap map;
+    private MapGenerator mapGenerator;
     private Image[] tiles = new Image[9];
     private Point tileSize;
     private PathFinder finder;
@@ -93,6 +95,8 @@ public class GamePanel extends JPanel {
 
     public GamePanel() {
         loadImages();
+        mapGenerator = new MapGenerator(null);
+        map = mapGenerator.generateMap();
         makeMinesweeper();
         finder = new AStarPathFinder(map, 500, false);
         path = finder.findPath(new UnitMover(minesweeper.getPersonality()), posOnMap.x, posOnMap.y, 0, 0);
