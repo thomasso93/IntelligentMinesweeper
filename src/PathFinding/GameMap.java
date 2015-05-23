@@ -10,8 +10,8 @@ import java.util.Random;
 public class GameMap implements TileBasedMap {
 
     private Random rand = new Random();
-    public final int WIDTH = rand.nextInt((45 - 10) + 1) + 10;
-    public final int HEIGHT = rand.nextInt((25 - 10) + 1) + 10;
+    public final int WIDTH = 20;
+    public final int HEIGHT = 20;
     private int[][] terrain = new int[WIDTH][HEIGHT];
     private int[][] units = new int[WIDTH][HEIGHT];
     private boolean[][] visited = new boolean[WIDTH][HEIGHT];
