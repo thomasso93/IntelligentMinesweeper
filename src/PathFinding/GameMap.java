@@ -26,6 +26,7 @@ public class GameMap implements TileBasedMap {
     public static final int TRACKS = 7;
     public static final int CURVED_TRACKS = 8;
     public static final int MAX_NUMBER_OF_BOMBS = (int) (0.55 * WIDTH * HEIGHT);
+    public static final int[] UNIT_FIELDS = { EMPTY_FIELD, EASY_BOMB, MEDIUM_BOMB, HARD_BOMB };
 
     public GameMap() {
         initTerrain();

@@ -96,13 +96,30 @@ public class MapCalculator {
     }
 
     /**
+     * Random index in range
+     * @param min
+     * @param max
+     * @return random number from range
+     */
+    public static int randomIndexFromRange(int min, int max) {
+        return new Random().nextInt((max - min) + 1) + min;
+    }
+
+    /**
      * Replace random element in array with another random element
      * @param array
-     * @param object
+     * @param objects objects to use to replace random element
+     * @param minIndex minimum index for random index
      * @return array with random replaced element
      */
-    public static int[] replaceRandomElement(int[] array, int object) {
+    public static int[] replaceRandomElement(int[] array, int[] objects, int minIndex) {
+        int randomIndex = MapCalculator.randomIndexFromRange(minIndex, array.length - 1);
+        int randomObjectIndex = MapCalculator.randomIndexFromRange(0, objects.length - 1);;
 
+        while(array[randomIndex] == objects[randomObjectIndex])
+            randomObjectIndex = MapCalculator.randomIndexFromRange(0, objects.length - 1);;
+
+        array[randomIndex] = objects[randomObjectIndex];
 
         return array;
     }

@@ -119,6 +119,11 @@ public class MapGenerator {
      * @return mutated individual
      */
     private GameMap mutation(GameMap individual) {
+        int[] units = MapCalculator.matrixToArray(individual.getUnits(), GameMap.HEIGHT, GameMap.WIDTH);
+
+        units = MapCalculator.replaceRandomElement(units, GameMap.UNIT_FIELDS, 1);
+        individual.setUnits(MapCalculator.arrayToMatrix(units, GameMap.WIDTH));
+
         return individual;
     }
 
