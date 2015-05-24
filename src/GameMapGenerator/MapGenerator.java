@@ -98,10 +98,19 @@ public class MapGenerator {
      * @return children created from parent
      */
     private GameMap[] createChildren(GameMap firstParent, GameMap secondParent) {
-        GameMap[] children = new GameMap[2];
-        children[0] = mutation(new GameMap());
-        children[1] = mutation(new GameMap());
-        return children;
+        int[] firstParentUnits = MapCalculator.matrixToArray(firstParent.getUnits(), GameMap.HEIGHT, GameMap.WIDTH);
+        int[] secondParentUnits = MapCalculator.matrixToArray(secondParent.getUnits(), GameMap.HEIGHT, GameMap.WIDTH);
+        int size = firstParentUnits.length;
+        int indexToSplit = MapCalculator.randomIndexForSize(size, 0.4, 0.6);
+        GameMap firstChild = new GameMap();
+        GameMap secondChild = new GameMap();
+
+        int[] firstChildUnits = MapCalculator.mixArrays(firstParentUnits, secondParentUnits, indexToSplit, false);
+        firstChild.setUnits(MapCalculator.arrayToMatrix(firstChildUnits, GameMap.WIDTH));
+        int[] secondChildUnits = MapCalculator.mixArrays(firstParentUnits, secondParentUnits, indexToSplit, true);
+        secondChild.setUnits(MapCalculator.arrayToMatrix(secondChildUnits, GameMap.WIDTH));
+
+        return new GameMap[]{mutation(firstChild), mutation(secondChild)};
     }
 
     /**
