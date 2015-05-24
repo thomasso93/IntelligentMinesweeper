@@ -155,7 +155,7 @@ public class GameMap implements TileBasedMap {
         }
         units[rand.nextInt(WIDTH)][rand.nextInt(HEIGHT)] = TRACKS;
         units[rand.nextInt(WIDTH)][rand.nextInt(HEIGHT)] = CURVED_TRACKS;
-        units[rand.nextInt(WIDTH)][rand.nextInt(HEIGHT)] = MINESWEEPER;
+        units[0][0] = MINESWEEPER;
     }
 
     private int maxNumberOfBombs(int bomb) {
