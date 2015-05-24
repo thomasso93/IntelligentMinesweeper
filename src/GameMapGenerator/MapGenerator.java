@@ -57,10 +57,8 @@ public class MapGenerator {
         int easyBombsCount = MapCalculator.occurrences(units, GameMap.EASY_BOMB);
         int mediumBombsCount = MapCalculator.occurrences(units, GameMap.MEDIUM_BOMB);
         int hardBombsCount = MapCalculator.occurrences(units, GameMap.HARD_BOMB);
-        int[] countInColumns = MapCalculator.numberOfOccurrencesInColumns(individual.getUnits(), GameMap.EMPTY_FIELD);
-        int[] countInRows = MapCalculator.numberOfOccurrencesInRows(individual.getUnits(), GameMap.EMPTY_FIELD);
-        double columnsFitness = MapCalculator.calculateColumnsFitness(countInColumns);
-        double rowFitness = MapCalculator.calculateRowsFitness(countInRows);
+        double columnsFitness = MapCalculator.calculateColumnsFitness(individual.getUnits());
+        double rowFitness = MapCalculator.calculateRowsFitness(individual.getUnits());
         double bombsCountFitness = MapCalculator.bombCountFitness(easyBombsCount, mediumBombsCount, hardBombsCount);
 
         return (0.9 * bombsCountFitness + 0.5 * columnsFitness + 0.5 * rowFitness) / 3;
@@ -163,7 +161,7 @@ public class MapGenerator {
     /**
      * Setter for population
      * @param population individuals to add to current population
-     * @param clear if true all current indivuduals will be removed
+     * @param clear if true all current individuals will be removed
      */
     private void setBasePopulation(List<GameMap> population, boolean clear) {
         if (clear) this.basePopulation.clear();

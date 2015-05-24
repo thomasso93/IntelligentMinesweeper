@@ -230,11 +230,12 @@ public class MapCalculator {
     }
 
     /**
-     * Calculate column fitness
-     * @param counts
+     * Calculate column fitness for matrix
+     * @param matrix
      * @return overall fitness for column counts
      */
-    public static double calculateColumnsFitness(int[] counts) {
+    public static double calculateColumnsFitness(int[][] matrix) {
+        int[] counts = numberOfOccurrencesInColumns(matrix, GameMap.EMPTY_FIELD);
         double fitness = 0;
 
         for (int i = 0; i < counts.length; i++) {
@@ -254,11 +255,12 @@ public class MapCalculator {
     }
 
     /**
-     * Calculate rows fitness
-     * @param counts
+     * Calculate rows fitness for matrix
+     * @param matrix
      * @return overall fitness for row counts
      */
-    public static double calculateRowsFitness(int[] counts) {
+    public static double calculateRowsFitness(int[][] matrix) {
+        int[] counts = numberOfOccurrencesInRows(matrix, GameMap.EMPTY_FIELD);
         double fitness = 0;
 
         for (int i = 0; i < counts.length; i++) {
