@@ -8,7 +8,7 @@ public class MapGenerator {
     /** Max number of individuals in population */
     private static final int POPULATION_SIZE = 40;
     /** Max number of generations */
-    private static final int GENERATIONS = 10;
+    private static final int GENERATIONS = 5;
     /** Random initial population */
     private List<GameMap> basePopulation;
     /** Best individuals from population */
@@ -111,8 +111,11 @@ public class MapGenerator {
         GameMap secondChild = new GameMap();
 
         int[] firstChildUnits = MapCalculator.mixArrays(firstParentUnits, secondParentUnits, indexToSplit, false);
+        firstChildUnits = MapCalculator.reduceNumberOfBombs(firstChildUnits);
         firstChild.setUnits(MapCalculator.arrayToMatrix(firstChildUnits));
+
         int[] secondChildUnits = MapCalculator.mixArrays(firstParentUnits, secondParentUnits, indexToSplit, true);
+        secondChildUnits = MapCalculator.reduceNumberOfBombs(secondChildUnits);
         secondChild.setUnits(MapCalculator.arrayToMatrix(secondChildUnits));
 
         return new GameMap[]{mutation(firstChild), mutation(secondChild)};

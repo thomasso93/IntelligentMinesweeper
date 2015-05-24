@@ -57,6 +57,19 @@ public class MapCalculator {
     }
 
     /**
+     * Count of bomb occurrences
+     * @param array
+     * @return number of bombs
+     */
+    public static int bombOccurrences(int[] array) {
+        int occurrences = 0;
+
+        for (int x : array) if (x > GameMap.EMPTY_FIELD) occurrences++;
+
+        return  occurrences;
+    }
+
+    /**
      * Mix two arrays by taking n elements from first and m elements from second array
      * @param firstArray first array to mix
      * @param secondArray second array to mix
@@ -76,6 +89,32 @@ public class MapCalculator {
         }
 
         return  result;
+    }
+
+    /**
+     * Reduce number of bombs in array
+     * @param array
+     * @return array with reduced number of bombs
+     */
+    public static int[] reduceNumberOfBombs(int[] array) {
+        int easyBombsCount = occurrences(array, GameMap.EASY_BOMB);
+        int mediumBombsCount = occurrences(array, GameMap.MEDIUM_BOMB);
+        int hardBombsCount = occurrences(array, GameMap.HARD_BOMB);
+
+        while (bombOccurrences(array) > GameMap.MAX_NUMBER_OF_BOMBS) {
+            if (easyBombsCount > GameMap.maxNumberOfBombs(GameMap.EASY_BOMB)) {
+                array = replaceFirstOccurrence(array, GameMap.EASY_BOMB, GameMap.EMPTY_FIELD);
+                easyBombsCount = occurrences(array, GameMap.EASY_BOMB);
+            } else if (mediumBombsCount > GameMap.maxNumberOfBombs(GameMap.MEDIUM_BOMB)) {
+                array = replaceFirstOccurrence(array, GameMap.MEDIUM_BOMB, GameMap.EMPTY_FIELD);
+                mediumBombsCount = occurrences(array, GameMap.MEDIUM_BOMB);
+            } else if (hardBombsCount > GameMap.maxNumberOfBombs(GameMap.HARD_BOMB)) {
+                array = replaceFirstOccurrence(array, GameMap.HARD_BOMB, GameMap.EMPTY_FIELD);
+                hardBombsCount = occurrences(array, GameMap.HARD_BOMB);
+            }
+        }
+
+        return array;
     }
 
     /**
@@ -119,6 +158,23 @@ public class MapCalculator {
 
         array[randomIndex] = objects[randomObjectIndex];
 
+        return array;
+    }
+
+    /**
+     * Replace first occurrence of object
+     * @param array
+     * @param object
+     * @param replaceWith
+     * @return array with replaced object
+     */
+    public static int[] replaceFirstOccurrence(int[] array, int object, int replaceWith) {
+        for (int i = 0; i < array.length; i++) {
+            if (array[i] == object) {
+                array[i] = replaceWith;
+                break;
+            }
+        }
         return array;
     }
 

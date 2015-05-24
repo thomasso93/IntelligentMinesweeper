@@ -147,6 +147,15 @@ public class GameMap implements TileBasedMap {
         units[0][0] = MINESWEEPER;
     }
 
+    public static int maxNumberOfBombs(int bomb) {
+        switch (bomb) {
+            case EASY_BOMB: return (int) (0.7 * MAX_NUMBER_OF_BOMBS);
+            case MEDIUM_BOMB: return (int) (0.2 * MAX_NUMBER_OF_BOMBS);
+            case HARD_BOMB: return (int) (0.1 * MAX_NUMBER_OF_BOMBS);
+            default: return 0;
+        }
+    }
+
     private void randomScannedFields() {
         for (int i = 0; i < 0.05 * area; i++) {
             int x = rand.nextInt(WIDTH - 1);
@@ -161,15 +170,6 @@ public class GameMap implements TileBasedMap {
     private void initTerrain() {
         for (int i = 0; i < area; i++) {
             setTerrain(rand.nextInt(WIDTH), rand.nextInt(HEIGHT), UNKNOWN_FIELD);
-        }
-    }
-
-    private int maxNumberOfBombs(int bomb) {
-        switch (bomb) {
-            case EASY_BOMB: return (int) (0.7 * MAX_NUMBER_OF_BOMBS);
-            case MEDIUM_BOMB: return (int) (0.2 * MAX_NUMBER_OF_BOMBS);
-            case HARD_BOMB: return (int) (0.1 * MAX_NUMBER_OF_BOMBS);
-            default: return 0;
         }
     }
 }
