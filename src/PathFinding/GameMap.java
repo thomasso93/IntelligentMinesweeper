@@ -105,6 +105,8 @@ public class GameMap implements TileBasedMap {
 
     public int[][] getUnits() { return units; }
 
+    public void setUnits(int[][] units) { this.units = units; }
+
     @Override
     public float getCost(Mover mover, int sx, int sy, int tx, int ty) {
         return 1;
