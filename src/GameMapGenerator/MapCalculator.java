@@ -101,7 +101,7 @@ public class MapCalculator {
         int mediumBombsCount = occurrences(array, GameMap.MEDIUM_BOMB);
         int hardBombsCount = occurrences(array, GameMap.HARD_BOMB);
 
-        while (bombOccurrences(array) > GameMap.MAX_NUMBER_OF_BOMBS) {
+        while (bombOccurrences(array) > GameMap.MAX_NUMBER_OF_BOMBS - 1) {
             if (easyBombsCount > GameMap.maxNumberOfBombs(GameMap.EASY_BOMB)) {
                 array = replaceFirstOccurrence(array, GameMap.EASY_BOMB, GameMap.EMPTY_FIELD);
                 easyBombsCount = occurrences(array, GameMap.EASY_BOMB);
