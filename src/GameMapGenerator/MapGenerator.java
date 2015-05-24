@@ -54,11 +54,11 @@ public class MapGenerator {
      */
     private double calculateFitness(GameMap individual) {
         int[] units = MapCalculator.matrixToArray(individual.getUnits());
-        double bombsCountFitness = MapCalculator.bombCountFitness(units);
+        double bombsCountFitness = MapCalculator.bombsCountFitness(units);
         double columnsFitness = MapCalculator.calculateColumnsFitness(individual.getUnits());
-        double rowFitness = MapCalculator.calculateRowsFitness(individual.getUnits());
+        double rowsFitness = MapCalculator.calculateRowsFitness(individual.getUnits());
 
-        return (bombsCountFitness + 0.65 * columnsFitness + 0.4 * rowFitness) / 3;
+        return (bombsCountFitness + 0.65 * columnsFitness + 0.4 * rowsFitness) / 3;
     }
 
     /** Selection of best individuals from population */
