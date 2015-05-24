@@ -1,9 +1,5 @@
 package GameMapGenerator;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Random;
 
 public class MapCalculator {
@@ -114,10 +110,10 @@ public class MapCalculator {
      */
     public static int[] replaceRandomElement(int[] array, int[] objects, int minIndex) {
         int randomIndex = MapCalculator.randomIndexFromRange(minIndex, array.length - 1);
-        int randomObjectIndex = MapCalculator.randomIndexFromRange(0, objects.length - 1);;
+        int randomObjectIndex = MapCalculator.randomIndexFromRange(0, objects.length - 1);
 
         while(array[randomIndex] == objects[randomObjectIndex])
-            randomObjectIndex = MapCalculator.randomIndexFromRange(0, objects.length - 1);;
+            randomObjectIndex = MapCalculator.randomIndexFromRange(0, objects.length - 1);
 
         array[randomIndex] = objects[randomObjectIndex];
 
