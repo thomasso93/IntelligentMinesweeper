@@ -253,7 +253,7 @@ public class MapCalculator {
             }
         }
 
-        return fitness;
+        return fitness / COLUMNS;
     }
 
     /**
@@ -278,7 +278,7 @@ public class MapCalculator {
             }
         }
 
-        return fitness;
+        return fitness / ROWS;
     }
 }
 
