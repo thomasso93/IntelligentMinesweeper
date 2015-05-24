@@ -180,12 +180,14 @@ public class MapCalculator {
 
     /**
      * Calculate bombs count fitness
-     * @param easyBombsCount
-     * @param mediumBombsCount
-     * @param hardBombsCount
+     * @param array
      * @return fitness for bomb counts
      */
-    public static double bombCountFitness(int easyBombsCount, int mediumBombsCount, int hardBombsCount) {
+    public static double bombCountFitness(int[] array) {
+        int easyBombsCount = occurrences(array, GameMap.EASY_BOMB);
+        int mediumBombsCount = occurrences(array, GameMap.MEDIUM_BOMB);
+        int hardBombsCount = occurrences(array, GameMap.HARD_BOMB);
+
         return 0.2 * easyBombsCount + 0.4 * mediumBombsCount + 0.6 * hardBombsCount;
     }
 

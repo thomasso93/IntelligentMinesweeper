@@ -54,12 +54,9 @@ public class MapGenerator {
      */
     private double calculateFitness(GameMap individual) {
         int[] units = MapCalculator.matrixToArray(individual.getUnits());
-        int easyBombsCount = MapCalculator.occurrences(units, GameMap.EASY_BOMB);
-        int mediumBombsCount = MapCalculator.occurrences(units, GameMap.MEDIUM_BOMB);
-        int hardBombsCount = MapCalculator.occurrences(units, GameMap.HARD_BOMB);
+        double bombsCountFitness = MapCalculator.bombCountFitness(units);
         double columnsFitness = MapCalculator.calculateColumnsFitness(individual.getUnits());
         double rowFitness = MapCalculator.calculateRowsFitness(individual.getUnits());
-        double bombsCountFitness = MapCalculator.bombCountFitness(easyBombsCount, mediumBombsCount, hardBombsCount);
 
         return (bombsCountFitness + 0.65 * columnsFitness + 0.4 * rowFitness) / 3;
     }
