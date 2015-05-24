@@ -101,6 +101,10 @@ public class GameMap implements TileBasedMap {
         terrain[point.x][point.y] = unit;
     }
 
+    public int[][] getTerrains() { return terrain; }
+
+    public int[][] getUnits() { return units; }
+
     @Override
     public float getCost(Mover mover, int sx, int sy, int tx, int ty) {
         return 1;
