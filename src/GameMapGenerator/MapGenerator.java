@@ -61,7 +61,7 @@ public class MapGenerator {
         double rowFitness = MapCalculator.calculateRowsFitness(individual.getUnits());
         double bombsCountFitness = MapCalculator.bombCountFitness(easyBombsCount, mediumBombsCount, hardBombsCount);
 
-        return (0.9 * bombsCountFitness + 0.5 * columnsFitness + 0.5 * rowFitness) / 3;
+        return (bombsCountFitness + 0.65 * columnsFitness + 0.4 * rowFitness) / 3;
     }
 
     /** Selection of best individuals from population */
