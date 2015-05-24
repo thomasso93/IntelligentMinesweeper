@@ -8,7 +8,7 @@ public class MapGenerator {
     /** Max number of individuals in population */
     private static final int POPULATION_SIZE = 40;
     /** Max number of generations */
-    private static final int GENERATIONS = 50;
+    private static final int GENERATIONS = 10;
     /** Random initial population */
     private List<GameMap> basePopulation;
     /** Best individuals from population */
@@ -53,12 +53,17 @@ public class MapGenerator {
      * @return fitness for individual
      */
     private double calculateFitness(GameMap individual) {
-        int[] units = MapCalculator.matrixToArray(individual.getUnits(), GameMap.HEIGHT, GameMap.WIDTH);
-        int numberOfEasyBombs = MapCalculator.occurrences(units, GameMap.EASY_BOMB);
-        int numberOfMediumBombs = MapCalculator.occurrences(units, GameMap.MEDIUM_BOMB);
-        int numberOfHardBombs = MapCalculator.occurrences(units, GameMap.HARD_BOMB);
+        int[] units = MapCalculator.matrixToArray(individual.getUnits());
+        int easyBombsCount = MapCalculator.occurrences(units, GameMap.EASY_BOMB);
+        int mediumBombsCount = MapCalculator.occurrences(units, GameMap.MEDIUM_BOMB);
+        int hardBombsCount = MapCalculator.occurrences(units, GameMap.HARD_BOMB);
+        int[] countInColumns = MapCalculator.numberOfOccurrencesInColumns(individual.getUnits(), GameMap.EMPTY_FIELD);
+        int[] countInRows = MapCalculator.numberOfOccurrencesInRows(individual.getUnits(), GameMap.EMPTY_FIELD);
+        double columnsFitness = MapCalculator.calculateColumnsFitness(countInColumns);
+        double rowFitness = MapCalculator.calculateRowsFitness(countInRows);
+        double bombsCountFitness = MapCalculator.bombCountFitness(easyBombsCount, mediumBombsCount, hardBombsCount);
 
-        return 0.2 * numberOfEasyBombs + 0.4 * numberOfMediumBombs + 0.6 * numberOfHardBombs;
+        return (0.9 * bombsCountFitness + 0.5 * columnsFitness + 0.5 * rowFitness) / 3;
     }
 
     /** Selection of best individuals from population */
@@ -98,17 +103,17 @@ public class MapGenerator {
      * @return children created from parent
      */
     private GameMap[] createChildren(GameMap firstParent, GameMap secondParent) {
-        int[] firstParentUnits = MapCalculator.matrixToArray(firstParent.getUnits(), GameMap.HEIGHT, GameMap.WIDTH);
-        int[] secondParentUnits = MapCalculator.matrixToArray(secondParent.getUnits(), GameMap.HEIGHT, GameMap.WIDTH);
+        int[] firstParentUnits = MapCalculator.matrixToArray(firstParent.getUnits());
+        int[] secondParentUnits = MapCalculator.matrixToArray(secondParent.getUnits());
         int size = firstParentUnits.length;
         int indexToSplit = MapCalculator.randomIndexForSize(size, 0.4, 0.6);
         GameMap firstChild = new GameMap();
         GameMap secondChild = new GameMap();
 
         int[] firstChildUnits = MapCalculator.mixArrays(firstParentUnits, secondParentUnits, indexToSplit, false);
-        firstChild.setUnits(MapCalculator.arrayToMatrix(firstChildUnits, GameMap.WIDTH));
+        firstChild.setUnits(MapCalculator.arrayToMatrix(firstChildUnits));
         int[] secondChildUnits = MapCalculator.mixArrays(firstParentUnits, secondParentUnits, indexToSplit, true);
-        secondChild.setUnits(MapCalculator.arrayToMatrix(secondChildUnits, GameMap.WIDTH));
+        secondChild.setUnits(MapCalculator.arrayToMatrix(secondChildUnits));
 
         return new GameMap[]{mutation(firstChild), mutation(secondChild)};
     }
@@ -119,10 +124,10 @@ public class MapGenerator {
      * @return mutated individual
      */
     private GameMap mutation(GameMap individual) {
-        int[] units = MapCalculator.matrixToArray(individual.getUnits(), GameMap.HEIGHT, GameMap.WIDTH);
+        int[] units = MapCalculator.matrixToArray(individual.getUnits());
 
         units = MapCalculator.replaceRandomElement(units, GameMap.UNIT_FIELDS, 1);
-        individual.setUnits(MapCalculator.arrayToMatrix(units, GameMap.WIDTH));
+        individual.setUnits(MapCalculator.arrayToMatrix(units));
 
         return individual;
     }

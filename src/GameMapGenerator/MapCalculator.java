@@ -1,21 +1,24 @@
 package GameMapGenerator;
 
+import PathFinding.GameMap;
+
 import java.util.Random;
 
 public class MapCalculator {
+    private static final int ROWS = GameMap.HEIGHT;
+    private static final int COLUMNS = GameMap.WIDTH;
+
     /**
      *  Transform matrix to array
      *  @param matrix matrix to transform
-     *  @param rows number of rows in matrix
-     *  @param columns number of columns in matrix
      *  @return array with all elements from matrix
      */
-    public static int[] matrixToArray(int[][] matrix, int rows, int columns) {
-        int[] result = new int[rows * columns];
+    public static int[] matrixToArray(int[][] matrix) {
+        int[] result = new int[ROWS * COLUMNS];
         int i = 0;
 
-        for (int row = 0; row < rows; row++) {
-            for (int column = 0; column < columns; column++) {
+        for (int row = 0; row < ROWS; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
                 result[i++] = matrix[row][column];
             }
         }
@@ -26,15 +29,14 @@ public class MapCalculator {
     /**
      * Transform array to matrix
      * @param array array to transform
-     * @param columns number of columns in new matrix
      * @return matrix with passed number of columns
      */
-    public static int[][] arrayToMatrix(int[] array, int columns) {
-        int rows = (array.length + columns - 1) / columns;
-        int[][] matrix = new int[rows][columns];
+    public static int[][] arrayToMatrix(int[] array) {
+        int rows = (array.length + COLUMNS - 1) / COLUMNS;
+        int[][] matrix = new int[rows][COLUMNS];
 
         for (int i = 0; i < array.length; i++) {
-            matrix[i / columns][i % columns] = array[i];
+            matrix[i / COLUMNS][i % COLUMNS] = array[i];
         }
 
         return matrix;
@@ -118,6 +120,105 @@ public class MapCalculator {
         array[randomIndex] = objects[randomObjectIndex];
 
         return array;
+    }
+
+    /**
+     * Calculate bombs count fitness
+     * @param easyBombsCount
+     * @param mediumBombsCount
+     * @param hardBombsCount
+     * @return fitness for bomb counts
+     */
+    public static double bombCountFitness(int easyBombsCount, int mediumBombsCount, int hardBombsCount) {
+        return 0.2 * easyBombsCount + 0.4 * mediumBombsCount + 0.6 * hardBombsCount;
+    }
+
+    /**
+     * Calculate number of occurrences of elements bigger than object in each column
+     * @param matrix
+     * @param object
+     * @return number of occurrences for each column
+     */
+    public static int[] numberOfOccurrencesInColumns(int[][] matrix, int object) {
+        int[] occurrencesInColumns = new int[matrix[0].length];
+
+        for(int i = 0; i < occurrencesInColumns.length; i++) {
+            occurrencesInColumns[i] = 0;
+
+            for (int[] row : matrix) {
+                if (row[i] > object) occurrencesInColumns[i]++;
+            }
+        }
+
+        return occurrencesInColumns;
+    }
+
+    /**
+     * Calculate  number of occurrences of elements bigger than object in each row
+     * @param matrix
+     * @param object
+     * @return number of occurrences for each row
+     */
+    public static int[] numberOfOccurrencesInRows(int[][] matrix, int object) {
+        int[] occurrencesInRows = new int[matrix.length];
+
+        for(int i = 0; i < occurrencesInRows.length; i++) {
+            occurrencesInRows[i] = 0;
+
+            for (int x : matrix[i]) {
+                if (x > object) occurrencesInRows[i]++;
+            }
+        }
+
+        return occurrencesInRows;
+    }
+
+    /**
+     * Calculate column fitness
+     * @param counts
+     * @return overall fitness for column counts
+     */
+    public static double calculateColumnsFitness(int[] counts) {
+        double fitness = 0;
+
+        for (int i = 0; i < counts.length; i++) {
+            int prev = i - 1;
+            int next = i + 1;
+
+            if (prev < 0) {
+                fitness += (0.5 * counts[i] + 0.6 * counts[next]) / 2;
+            } else if (next > counts.length - 1) {
+                fitness += (0.6 * counts[prev] + 0.5 * counts[i]) / 2;
+            } else {
+                fitness += (0.8 * counts[prev] + counts[i] + 0.8 * counts[next]) / 3;
+            }
+        }
+
+        return fitness;
+    }
+
+    /**
+     * Calculate rows fitness
+     * @param counts
+     * @return overall fitness for row counts
+     */
+    public static double calculateRowsFitness(int[] counts) {
+        double fitness = 0;
+
+        for (int i = 0; i < counts.length; i++) {
+            int prev = i - 1;
+            int next = i + 1;
+
+            if (prev < 0) {
+                fitness += (0.4 * counts[i] + 0.55 * counts[next]) / 2;
+            } else if (next > counts.length - 1) {
+                fitness += (0.55 * counts[prev] + 0.4 * counts[i]) / 2;
+            } else {
+                fitness += (0.65 * counts[prev] + 0.85 * counts[i] + 0.65 * counts[next]) / 3;
+            }
+        }
+
+        return fitness;
     }
 }
 
