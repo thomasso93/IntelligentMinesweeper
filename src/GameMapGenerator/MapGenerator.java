@@ -53,7 +53,12 @@ public class MapGenerator {
      * @return fitness for individual
      */
     private double calculateFitness(GameMap individual) {
-        return new Random().nextDouble();
+        int[] units = MapCalculator.matrixToArray(individual.getUnits(), GameMap.HEIGHT, GameMap.WIDTH);
+        int numberOfEasyBombs = MapCalculator.occurrences(units, GameMap.EASY_BOMB);
+        int numberOfMediumBombs = MapCalculator.occurrences(units, GameMap.MEDIUM_BOMB);
+        int numberOfHardBombs = MapCalculator.occurrences(units, GameMap.HARD_BOMB);
+
+        return 0.2 * numberOfEasyBombs + 0.4 * numberOfMediumBombs + 0.6 * numberOfHardBombs;
     }
 
     /** Selection of best individuals from population */
