@@ -13,6 +13,7 @@ public class GameMap implements TileBasedMap {
     private int[][] terrain = new int[WIDTH][HEIGHT];
     private int[][] units = new int[WIDTH][HEIGHT];
     private boolean[][] visited = new boolean[WIDTH][HEIGHT];
+    private int area = WIDTH * HEIGHT;
     public static final int WIDTH = 20;
     public static final int HEIGHT = 20;
     public static final int EMPTY_FIELD = 0;
@@ -27,7 +28,8 @@ public class GameMap implements TileBasedMap {
     public static final int MAX_NUMBER_OF_BOMBS = (int) (0.55 * WIDTH * HEIGHT);
 
     public GameMap() {
-        randomMap();
+        initTerrain();
+        randomScannedFields();
     }
 
     private void fillArea(int x, int y, int width, int height, int type) {
@@ -128,22 +130,10 @@ public class GameMap implements TileBasedMap {
     }
 
     public void randomMap() {
-        int area = WIDTH * HEIGHT;
         int numberOfEasyBombs = rand.nextInt(maxNumberOfBombs(EASY_BOMB));
         int numberOfMediumBombs = rand.nextInt(maxNumberOfBombs(MEDIUM_BOMB));
         int numberOfHardBombs = rand.nextInt(maxNumberOfBombs(HARD_BOMB));
 
-        for (int i = 0; i <  area; i++) {
-            terrain[rand.nextInt(WIDTH)][rand.nextInt(HEIGHT)] = UNKNOWN_FIELD;
-        }
-        for (int i = 0; i < 0.05 * area; i++) {
-            int x=rand.nextInt(WIDTH-1);
-            int y=rand.nextInt(HEIGHT-1);
-            terrain[x+1][y+1] = SCANNED_FIELD;
-            terrain[x][y+1] = SCANNED_FIELD;
-            terrain[x+1][y] = SCANNED_FIELD;
-            terrain[x][y] = SCANNED_FIELD;
-        }
         for (int i = 0; i < numberOfEasyBombs; i++) {
             units[rand.nextInt(WIDTH)][rand.nextInt(HEIGHT)] = EASY_BOMB;
         }
@@ -153,9 +143,24 @@ public class GameMap implements TileBasedMap {
         for (int i = 0; i < numberOfHardBombs; i++) {
             units[rand.nextInt(WIDTH)][rand.nextInt(HEIGHT)] = HARD_BOMB;
         }
-        units[rand.nextInt(WIDTH)][rand.nextInt(HEIGHT)] = TRACKS;
-        units[rand.nextInt(WIDTH)][rand.nextInt(HEIGHT)] = CURVED_TRACKS;
         units[0][0] = MINESWEEPER;
+    }
+
+    private void randomScannedFields() {
+        for (int i = 0; i < 0.05 * area; i++) {
+            int x = rand.nextInt(WIDTH - 1);
+            int y = rand.nextInt(HEIGHT - 1);
+            setTerrain(x + 1, y + 1, SCANNED_FIELD);
+            setTerrain(x, y + 1, SCANNED_FIELD);
+            setTerrain(x + 1, y, SCANNED_FIELD);
+            setTerrain(x, y, SCANNED_FIELD);
+        }
+    }
+
+    private void initTerrain() {
+        for (int i = 0; i < area; i++) {
+            setTerrain(rand.nextInt(WIDTH), rand.nextInt(HEIGHT), UNKNOWN_FIELD);
+        }
     }
 
     private int maxNumberOfBombs(int bomb) {
