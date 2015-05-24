@@ -101,17 +101,17 @@ public class MapCalculator {
         int mediumBombsCount = occurrences(array, GameMap.MEDIUM_BOMB);
         int hardBombsCount = occurrences(array, GameMap.HARD_BOMB);
 
-        while (bombOccurrences(array) > GameMap.MAX_NUMBER_OF_BOMBS - 1) {
-            if (easyBombsCount > GameMap.maxNumberOfBombs(GameMap.EASY_BOMB)) {
-                array = replaceFirstOccurrence(array, GameMap.EASY_BOMB, GameMap.EMPTY_FIELD);
-                easyBombsCount = occurrences(array, GameMap.EASY_BOMB);
-            } else if (mediumBombsCount > GameMap.maxNumberOfBombs(GameMap.MEDIUM_BOMB)) {
-                array = replaceFirstOccurrence(array, GameMap.MEDIUM_BOMB, GameMap.EMPTY_FIELD);
-                mediumBombsCount = occurrences(array, GameMap.MEDIUM_BOMB);
-            } else if (hardBombsCount > GameMap.maxNumberOfBombs(GameMap.HARD_BOMB)) {
-                array = replaceFirstOccurrence(array, GameMap.HARD_BOMB, GameMap.EMPTY_FIELD);
-                hardBombsCount = occurrences(array, GameMap.HARD_BOMB);
-            }
+        while (easyBombsCount > GameMap.maxNumberOfBombs(GameMap.EASY_BOMB) - 1) {
+            array = replaceFirstOccurrence(array, GameMap.EASY_BOMB, GameMap.EMPTY_FIELD);
+            easyBombsCount = occurrences(array, GameMap.EASY_BOMB);
+        }
+        while (mediumBombsCount > GameMap.maxNumberOfBombs(GameMap.MEDIUM_BOMB) - 1) {
+            array = replaceFirstOccurrence(array, GameMap.MEDIUM_BOMB, GameMap.EMPTY_FIELD);
+            mediumBombsCount = occurrences(array, GameMap.MEDIUM_BOMB);
+        }
+        while (hardBombsCount > GameMap.maxNumberOfBombs(GameMap.HARD_BOMB) - 1) {
+            array = replaceFirstOccurrence(array, GameMap.HARD_BOMB, GameMap.EMPTY_FIELD);
+            hardBombsCount = occurrences(array, GameMap.HARD_BOMB);
         }
 
         return array;
