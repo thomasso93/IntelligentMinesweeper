@@ -8,7 +8,7 @@ public class MapGenerator {
     /** Max number of individuals in population */
     private static final int POPULATION_SIZE = 40;
     /** Max number of generations */
-    private static final int GENERATIONS = 5;
+    private static final int GENERATIONS = 20;
     /** Random initial population */
     private List<GameMap> basePopulation;
     /** Best individuals from population */
@@ -149,7 +149,7 @@ public class MapGenerator {
             map.randomMap();
             population.add(map);
         }
-        
+
         setBasePopulation(population, true);
     }
 

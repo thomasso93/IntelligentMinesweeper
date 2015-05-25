@@ -99,7 +99,7 @@ public class GameMap implements TileBasedMap {
     public void setUnit(Point point, int unit) {
         units[point.x][point.y] = unit;
     }
-    
+
     public void setTerrain(Point point, int unit) {
         terrain[point.x][point.y] = unit;
     }
@@ -131,9 +131,7 @@ public class GameMap implements TileBasedMap {
     }
 
     public void randomMap() {
-        int numberOfEasyBombs = rand.nextInt(maxNumberOfBombs(EASY_BOMB));
-        int numberOfMediumBombs = rand.nextInt(maxNumberOfBombs(MEDIUM_BOMB));
-        int numberOfHardBombs = rand.nextInt(maxNumberOfBombs(HARD_BOMB));
+        int numberOfHardBombs = rand.nextInt(maxNumberOfBombs(HARD_BOMB)) / 4;
 
         for (int i = 0; i < numberOfEasyBombs; i++) {
             units[rand.nextInt(WIDTH)][rand.nextInt(HEIGHT)] = EASY_BOMB;
