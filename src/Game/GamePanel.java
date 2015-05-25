@@ -1,24 +1,18 @@
 package Game;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import javax.swing.JPanel;
-import javax.imageio.ImageIO;
-
+import GameMapGenerator.MapGenerator;
+import PathFinding.GameMap;
+import PathFinding.UnitMover;
 import PathFindingFramework.AStarPathFinder;
 import PathFindingFramework.Path;
 import PathFindingFramework.PathFinder;
-import PathFinding.GameMap;
-import PathFinding.UnitMover;
-import java.awt.Point;
-import GameMapGenerator.MapGenerator;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class GamePanel extends JPanel {
 
@@ -95,8 +89,8 @@ public class GamePanel extends JPanel {
 
     public GamePanel() {
         loadImages();
-        mapGenerator = new MapGenerator(null);
-        map = mapGenerator.generateMap();
+        mapGenerator = new MapGenerator();
+        map = mapGenerator.generateMap(null);
         makeMinesweeper();
         finder = new AStarPathFinder(map, 500, false);
         path = finder.findPath(new UnitMover(minesweeper.getPersonality()), posOnMap.x, posOnMap.y, 0, 0);

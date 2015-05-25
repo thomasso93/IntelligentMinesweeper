@@ -15,25 +15,26 @@ public class MapGenerator {
     private List<GameMap> selectedPopulation;
     /** Evaluations for each individual */
     private TreeMap<Double, GameMap> evaluations;
-
-    /**
-     * Constructor for MapGenerator
-     * @param previousIndividuals individuals to add to initial populations
-     */
-    public MapGenerator(GameMap[] previousIndividuals) {
+    
+    public MapGenerator() {
         basePopulation = new ArrayList<GameMap>();
         selectedPopulation = new ArrayList<GameMap>();
         evaluations = new TreeMap<Double, GameMap>(Collections.reverseOrder());
-        generateInitialPopulation(previousIndividuals);
     }
 
-    /** Generate better map using genetic algorithm */
-    public GameMap generateMap() {
+    /**
+     * Generate better map using genetic algorithm
+     * @param previousIndividuals individuals to add to initial populations
+     */
+    public GameMap generateMap(GameMap[] previousIndividuals) {
+        generateInitialPopulation(previousIndividuals);
+
         for (int i = 0; i < GENERATIONS; i++) {
             evaluation();
             selection();
             crossover();
         }
+
         return bestIndividual();
     }
 
