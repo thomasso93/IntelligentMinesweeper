@@ -131,6 +131,8 @@ public class GameMap implements TileBasedMap {
     }
 
     public void randomMap() {
+        int numberOfEasyBombs = rand.nextInt(maxNumberOfBombs(EASY_BOMB)) / 2;
+        int numberOfMediumBombs = rand.nextInt(maxNumberOfBombs(MEDIUM_BOMB)) / 3;
         int numberOfHardBombs = rand.nextInt(maxNumberOfBombs(HARD_BOMB)) / 4;
 
         for (int i = 0; i < numberOfEasyBombs; i++) {
