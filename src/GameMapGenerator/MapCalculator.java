@@ -57,19 +57,6 @@ public class MapCalculator {
     }
 
     /**
-     * Count of bomb occurrences
-     * @param array
-     * @return number of bombs
-     */
-    public static int bombOccurrences(int[] array) {
-        int occurrences = 0;
-
-        for (int x : array) if (x > GameMap.EMPTY_FIELD) occurrences++;
-
-        return  occurrences;
-    }
-
-    /**
      * Mix two arrays by taking n elements from first and m elements from second array
      * @param firstArray first array to mix
      * @param secondArray second array to mix
