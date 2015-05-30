@@ -29,7 +29,7 @@ public class MapCalculator {
     /**
      * Transform array to matrix
      * @param array array to transform
-     * @return matrix with passed number of columns
+     * @return matrix with default number of columns and rows
      */
     public static int[][] arrayToMatrix(int[] array) {
         int rows = (array.length + COLUMNS - 1) / COLUMNS;
@@ -45,7 +45,7 @@ public class MapCalculator {
     /**
      * Count occurrences of object
      * @param array
-     * @param object
+     * @param object object for which we count occurrences of
      * @return number of occurrences of object in array
      */
     public static int occurrences(int[] array, int object) {
@@ -62,7 +62,8 @@ public class MapCalculator {
      * @param secondArray second array to mix
      * @param index where we should split first and second array
      * @param reverse if true we will take first elements from second array
-     * @return new mixed array from first and second array*/
+     * @return new mixed array from first and second array
+     */
     public static int[] mixArrays(int[] firstArray, int[] secondArray, int index, boolean reverse) {
         int size = firstArray.length;
         int[] result = new int[size];
@@ -80,7 +81,7 @@ public class MapCalculator {
 
     /**
      * Reduce number of bombs in array
-     * @param array
+     * @param array array of bombs
      * @return array with reduced number of bombs
      */
     public static int[] reduceNumberOfBombs(int[] array) {
@@ -121,8 +122,8 @@ public class MapCalculator {
 
     /**
      * Random index in range
-     * @param min
-     * @param max
+     * @param min minimum index number
+     * @param max maximum index number
      * @return random number from range
      */
     public static int randomIndexFromRange(int min, int max) {
@@ -151,8 +152,8 @@ public class MapCalculator {
     /**
      * Replace first occurrence of object
      * @param array
-     * @param object
-     * @param replaceWith
+     * @param object object to replace
+     * @param replaceWith object which will replace passed object
      * @return array with replaced object
      */
     public static int[] replaceFirstOccurrence(int[] array, int object, int replaceWith) {
@@ -167,7 +168,7 @@ public class MapCalculator {
 
     /**
      * Calculate bombs count fitness
-     * @param array
+     * @param array array with bombs
      * @return fitness for bomb counts
      */
     public static double bombsCountFitness(int[] array) {

@@ -15,7 +15,7 @@ public class MapGenerator {
     private List<GameMap> selectedPopulation;
     /** Evaluations for each individual */
     private TreeMap<Double, GameMap> evaluations;
-    
+
     public MapGenerator() {
         basePopulation = new ArrayList<GameMap>();
         selectedPopulation = new ArrayList<GameMap>();
