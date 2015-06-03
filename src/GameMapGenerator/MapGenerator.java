@@ -26,7 +26,7 @@ public class MapGenerator {
      * Generate better map using genetic algorithm
      * @param previousIndividuals individuals to add to initial populations
      */
-    public GameMap generateMap(GameMap[] previousIndividuals) {
+    public GameMap generateMap(ArrayList<GameMap> previousIndividuals) {
         generateInitialPopulation(previousIndividuals);
 
         for (int i = 0; i < GENERATIONS; i++) {
@@ -141,9 +141,9 @@ public class MapGenerator {
      * Generate initial population
      * @param previousIndividuals individuals to add to initial populations
      */
-    private void generateInitialPopulation(GameMap[] previousIndividuals) {
+    private void generateInitialPopulation(ArrayList<GameMap> previousIndividuals) {
         List<GameMap> population = new ArrayList<GameMap>();
-        if (previousIndividuals != null) Collections.addAll(population, previousIndividuals);
+        if (previousIndividuals != null) population.addAll(previousIndividuals);
 
         for (int i = population.size(); i < POPULATION_SIZE; i++) {
             GameMap map = new GameMap();

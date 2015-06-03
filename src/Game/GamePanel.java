@@ -13,13 +13,15 @@ import java.awt.*;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel {
 
     private Minesweeper minesweeper;
     private Point posOnMap;
     private GameMap map;
-    private MapGenerator mapGenerator;
+    private MapGenerator mapGenerator = new MapGenerator();
+    private ArrayList<GameMap> previousMaps = new ArrayList<>();;
     private Image[] tiles = new Image[9];
     private Point tileSize;
     private PathFinder finder;
@@ -89,8 +91,8 @@ public class GamePanel extends JPanel {
 
     public GamePanel() {
         loadImages();
-        mapGenerator = new MapGenerator();
-        map = mapGenerator.generateMap(null);
+        map = mapGenerator.generateMap(previousMaps);
+        previousMaps.add(map);
         makeMinesweeper();
         finder = new AStarPathFinder(map, 500, false);
         path = finder.findPath(new UnitMover(minesweeper.getPersonality()), posOnMap.x, posOnMap.y, 0, 0);
