@@ -59,7 +59,7 @@ public class MapGenerator {
         double columnsFitness = MapCalculator.calculateColumnsFitness(individual.getUnits());
         double rowsFitness = MapCalculator.calculateRowsFitness(individual.getUnits());
 
-        return (bombsCountFitness + 0.65 * columnsFitness + 0.4 * rowsFitness) / 3;
+        return ((bombsCountFitness + 0.65 * columnsFitness + 0.4 * rowsFitness) / 3) + new Random().nextDouble();
     }
 
     /** Selection of best individuals from population */
@@ -143,7 +143,15 @@ public class MapGenerator {
      */
     private void generateInitialPopulation(ArrayList<GameMap> previousIndividuals) {
         List<GameMap> population = new ArrayList<GameMap>();
-        if (previousIndividuals != null) population.addAll(previousIndividuals);
+        if (previousIndividuals != null && previousIndividuals.size() > 0) {
+            if (previousIndividuals.size() > POPULATION_SIZE) {
+                int start = previousIndividuals.size() - POPULATION_SIZE;
+                int end = previousIndividuals.size();
+                population.addAll(previousIndividuals.subList(start, end));
+            } else {
+                population.addAll(previousIndividuals);
+            }
+        }
 
         for (int i = population.size(); i < POPULATION_SIZE; i++) {
             GameMap map = new GameMap();
