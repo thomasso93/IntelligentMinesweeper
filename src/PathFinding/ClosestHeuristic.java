@@ -1,4 +1,8 @@
-package PathFindingFramework;
+package PathFinding;
+
+import PathFindingFramework.AStarHeuristic;
+import PathFindingFramework.Mover;
+import PathFindingFramework.TileBasedMap;
 
 public class ClosestHeuristic implements AStarHeuristic {
 

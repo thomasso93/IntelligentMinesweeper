@@ -1,12 +1,12 @@
 package PathFindingFramework;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import PathFinding.ClosestHeuristic;
+import java.util.PriorityQueue;
 
 public class AStarPathFinder implements PathFinder {
 
-    private ArrayList closed = new ArrayList();
-    private ArrayList open = new ArrayList();
+    private PriorityQueue closed = new PriorityQueue();
+    private PriorityQueue open = new PriorityQueue();
     private TileBasedMap map;
     private int maxSearchDistance;
     private Node[][] nodes;
@@ -48,12 +48,10 @@ public class AStarPathFinder implements PathFinder {
         int maxDepth = 0;
         while ((maxDepth < maxSearchDistance) && !open.isEmpty()) {
 
-            Node current = (Node)open.get(0);
+            Node current = (Node)open.poll();
             if (current == nodes[tx][ty]) {
                 break;
             }
-
-            open.remove(current);
             closed.add(current);
 
             for (int x = -1; x < 2; x++) {
@@ -69,9 +67,10 @@ public class AStarPathFinder implements PathFinder {
 
                     int xp = x + current.x;
                     int yp = y + current.y;
-
+                    
+                    //System.out.println("xp: "+xp+" yp: "+yp);
                     if (isValidLocation(mover, sx, sy, xp, yp)) {
-                         float nextStepCost = current.cost + getMovementCost(mover, current.x, current.y, xp, yp);
+                         float nextStepCost = current.cost + map.getCost(mover, sx, sy, tx, ty);
                         Node neighbour = nodes[xp][yp];
                         map.pathFinderVisited(xp, yp);
 
@@ -86,10 +85,9 @@ public class AStarPathFinder implements PathFinder {
 
                         if (!open.contains(neighbour) && !closed.contains(neighbour)) {
                             neighbour.cost = nextStepCost;
-                            neighbour.heuristic = getHeuristicCost(mover, xp, yp, tx, ty);
+                            neighbour.heuristic = heuristic.getCost(map, mover, x, y, tx, ty);
                             maxDepth = Math.max(maxDepth, neighbour.setParent(current));
                             open.add(neighbour);
-                            Collections.sort(open);
                         }
                     }
                 }
@@ -98,14 +96,26 @@ public class AStarPathFinder implements PathFinder {
         if (nodes[tx][ty].parent == null) {
             return null;
         }
-
+    
         Path path = new Path();
-        Node target = nodes[tx][ty];
+        Node target = nodes[tx][ty]; 
+        PathFinder.Action action = PathFinder.Action.N;
+        
         while (target != nodes[sx][sy]) {
-            path.prependStep(target.x, target.y);
+           
+            if(target.x < target.parent.x)
+                target.parent.setAction(Action.W);
+            else if(target.y < target.parent.y)
+                target.parent.setAction(Action.N);
+            else if(target.x > target.parent.x)
+               target.parent.setAction(Action.E);
+            else if(target.y > target.parent.y)
+                target.parent.setAction(Action.S);
+            path.prependStep(target.x, target.y, target.getAction());
             target = target.parent;
         }
-        path.prependStep(sx, sy);
+
+        path.prependStep(sx, sy, target.getAction());
         return path;
     }
 
@@ -115,24 +125,15 @@ public class AStarPathFinder implements PathFinder {
         if ((!invalid) && ((sx != x) || (sy != y))) {
             invalid = map.blocked(mover, x, y);
         }
-
         return !invalid;
     }
-
-    public float getMovementCost(Mover mover, int sx, int sy, int tx, int ty) {
-        return map.getCost(mover, sx, sy, tx, ty);
-    }
-
-    public float getHeuristicCost(Mover mover, int x, int y, int tx, int ty) {
-        return heuristic.getCost(map, mover, x, y, tx, ty);
-    }
-
     private class Node implements Comparable {
 
         private int x;
         private int y;
         private float cost;
         private Node parent;
+        private PathFinder.Action action;
         private float heuristic;
         private int depth;
         
@@ -140,7 +141,12 @@ public class AStarPathFinder implements PathFinder {
             this.x = x;
             this.y = y;
         }
-
+        public void setAction(PathFinder.Action action){
+            this.action=action;
+        }
+        public PathFinder.Action getAction(){
+           return this.action;
+        }
         public int setParent(Node parent) {
             depth = parent.depth + 1;
             this.parent = parent;

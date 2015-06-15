@@ -13,8 +13,8 @@ public class Path {
         return steps.size();
     }
 
-    public Step getStep(int index) {
-        return (Step) steps.get(index);
+    public State getStep(int index) {
+        return (State) steps.get(index);
     }
 
     public int getX(int index) {
@@ -25,12 +25,12 @@ public class Path {
         return getStep(index).y;
     }
 
-    public void appendStep(int x, int y) {
-        steps.add(new Step(x, y));
+    public void appendStep(int x, int y, PathFinder.Action action) {
+        steps.add(new State(x, y, action));
     }
 
-    public void prependStep(int x, int y) {
-        steps.add(0, new Step(x, y));
+    public void prependStep(int x, int y,PathFinder.Action action) {
+        steps.add(0, new State(x, y, action));
     }
     
     public void removeStep(int step) {
@@ -38,19 +38,29 @@ public class Path {
             steps.remove(step);
     }
     public boolean contains(int x, int y) {
-        return steps.contains(new Step(x, y));
+        return steps.contains(new State(x, y));
     }
 
-    public class Step {
+    public class State {
 
         private int x;
         private int y;
+        private PathFinder.Action action;
 
-        public Step(int x, int y) {
+       public State(int x, int y) {
             this.x = x;
             this.y = y;
         }
+        
+        public State(int x, int y, PathFinder.Action action) {
+            this.x = x;
+            this.y = y;
+            this.action = action;
+        }
 
+       public PathFinder.Action getAction() {
+            return action;
+        }
         public int getX() {
             return x;
         }
@@ -66,8 +76,8 @@ public class Path {
 
         @Override
         public boolean equals(Object other) {
-            if (other instanceof Step) {
-                Step o = (Step) other;
+            if (other instanceof State) {
+                State o = (State) other;
 
                 return (o.x == x) && (o.y == y);
             }

@@ -52,13 +52,12 @@ public class GameMap implements TileBasedMap {
     @Override
     public boolean blocked(Mover mover, int x, int y) {
         Minesweeper.Personality personality = ((UnitMover) mover).getPersonality();
+        boolean isBomb = units[x][y] == EASY_BOMB || units[x][y] == MEDIUM_BOMB || units[x][y] == HARD_BOMB;
 
         if (personality == Personality.CLEVER) {
-            boolean isBomb = units[x][y] == EASY_BOMB || units[x][y] == MEDIUM_BOMB || units[x][y] == HARD_BOMB;
             return terrain[x][y] == SCANNED_FIELD || (terrain[x][y] == EMPTY_FIELD && isBomb);
         }
         if (personality == Personality.MAD) {
-            boolean isBomb = units[x][y] == EASY_BOMB || units[x][y] == MEDIUM_BOMB || units[x][y] == HARD_BOMB;
             return terrain[x][y] == EMPTY_FIELD && isBomb;
         }
         return false;
